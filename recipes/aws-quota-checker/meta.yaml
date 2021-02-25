@@ -1,0 +1,49 @@
+{% set name = "aws-quota-checker" %}
+{% set version = "1.0.0" %}
+
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/brennerm/{{ name }}/archive/{{ version }}.tar.gz
+  sha256: 34ac21e7f3040ed5b9b4bc611678007ad2fd16c2d316d9ac8de854212597b14c
+
+build:
+  number: 0
+  noarch: python
+  entry_points:
+    - aws-quota-checker=aws_quota.cli:cli
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python >=3.6
+  run:
+    - boto3
+    - click
+    - python >=3.6
+    - tabulate
+
+test:
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://pypi.org/project/aws-quota-checker/
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: Keep an eye on your AWS quotas before you hit their limits
+  description: |
+    A tool that helps keeping track of your AWS quota utilization. It'll determine
+    the limits of your AWS account and compare them to the number of current resources.
+  dev_url: https://github.com/brennerm/aws-quota-checker
+
+extra:
+  recipe-maintainers:
+    - BastianZim
